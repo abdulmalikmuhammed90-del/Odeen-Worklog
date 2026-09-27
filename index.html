@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3ee">
+  <title>ODEEN — Staff Work Log</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#top" aria-label="ODEEN home">
+        <img src="brand-logo.png.PNG" alt="ODEEN logo" class="brand-mark-image" />
+        <span class="brand-wordmark">ODEEN</span>
+      </a>
+      <div class="nav-label">WORKSPACE</div>
+      <a class="nav-item active" href="#logbook"><span class="nav-icon">▤</span> Work log <span class="nav-count" id="nav-count">0</span></a>
+      <div class="sidebar-note"><span class="note-line"></span><p>Good work is<br>worth keeping track of.</p><span class="note-caption">THE ODEEN STANDARD</span></div>
+      <div class="sidebar-bottom"><span class="status-dot"></span> SAVED ON THIS DEVICE</div>
+    </aside>
+
+    <main id="top" class="main-content">
+      <header class="topbar"><div class="breadcrumb">WORKSPACE <span>/</span> <strong>WORK LOG</strong></div><div class="today-label"><span class="today-dot"></span> LOCAL WORKSPACE</div></header>
+      <section class="page-heading" id="logbook">
+        <div><div class="eyebrow">ODEEN CLOTHING</div><h1>Staff work log<span>.</span></h1><p class="intro">A considered record of the work that moves every piece forward.</p></div>
+        <div class="date-stamp"><span>YOUR WORKSPACE</span><strong id="today-display">—</strong></div>
+      </section>
+
+      <section class="metrics" aria-label="Work log totals">
+        <article class="metric-card"><div class="metric-top"><span>ENTRIES LOGGED</span><span class="metric-icon">▤</span></div><strong id="total-count">0</strong><small>All saved work records</small></article>
+        <article class="metric-card"><div class="metric-top"><span>COMPLETED</span><span class="metric-icon completed-icon">✓</span></div><strong id="completed-count">0</strong><small>Tasks marked complete</small></article>
+        <article class="metric-card"><div class="metric-top"><span>IN PROGRESS</span><span class="metric-icon progress-icon">⏳</span></div><strong id="progress-count">0</strong><small>Tasks still underway</small></article>
+        <article class="metric-card"><div class="metric-top"><span>UNITS RECORDED</span><span class="metric-icon units-icon">✳</span></div><strong id="units-count">0</strong><small>Total quantity across entries</small></article>
+      </section>
+
+      <section class="panel entry-panel" aria-labelledby="form-title">
+        <div class="panel-heading"><div><div class="eyebrow">NEW RECORD</div><h2 id="form-title">Log a day’s work</h2></div><span class="required-hint"><i></i> REQUIRED FIELDS</span></div>
+        <form id="work-form">
+          <div class="form-grid">
+            <label class="field"><span>STAFF NAME <b>*</b></span><input name="staff" id="staff" placeholder="e.g. Deen Hisham" required maxlength="80"></label>
+            <label class="field"><span>DATE <b>*</b></span><input name="date" id="date" type="date" required></label>
+            <label class="field"><span>DEPARTMENT / ROLE <b>*</b></span><select name="department" id="department" required><option value="" disabled selected>Select department</option><option>Cutting</option><option>Tailoring</option><option>Finishing</option><option>Pattern drafting</option><option>Quality control</option><option>Other</option></select></label>
+            <label class="field"><span>WORK CATEGORY <b>*</b></span><select name="category" id="category" required><option value="" disabled selected>Select work category</option><option>Top</option><option>Trouser</option><option>Cap</option><option>Fabric cutting</option><option>Alteration</option><option>Finishing & pressing</option><option>Quality check</option><option>Other</option></select></label>
+            <label class="field field-wide"><span>TASK / WORK DESCRIPTION <b>*</b></span><input name="description" id="description" placeholder="Describe the work carried out" required maxlength="180"></label>
+            <label class="field"><span>QUANTITY <b>*</b></span><div class="input-suffix"><input name="quantity" id="quantity" type="number" min="1" step="1" placeholder="0" required><span>UNITS</span></div></label>
+            <label class="field"><span>STATUS <b>*</b></span><select name="status" id="status" required><option>Completed</option><option>In Progress</option></select></label>
+            <label class="field field-wide"><span>NOTES <small>OPTIONAL</small></span><textarea name="notes" id="notes" rows="2" placeholder="Add context, order number, or anything the manager should know" maxlength="500"></textarea></label>
+          </div>
+          <div class="form-footer"><span class="privacy-note"><span class="lock-icon">▣</span> This log is stored in this browser on this device.</span><button class="primary-button" type="submit"><span>Save work record</span><span class="button-arrow">↗</span></button></div>
+        </form>
+      </section>
+
+      <section class="panel records-panel" aria-labelledby="records-title">
+        <div class="records-heading"><div><div class="eyebrow">THE PAPER TRAIL</div><h2 id="records-title">Work records <span id="visible-count">0</span></h2></div><button id="clear-filters" class="text-button" type="button">Clear filters <span>↗</span></button></div>
+        <div class="filters">
+          <label class="search-box"><span>⌕</span><input id="search" type="search" placeholder="Search staff or work…" aria-label="Search staff or work"></label>
+          <label class="filter-select"><span class="sr-only">Filter by date</span><input id="filter-date" type="date" aria-label="Filter by date"></label>
+          <label class="filter-select"><span class="sr-only">Filter by status</span><select id="filter-status" aria-label="Filter by status"><option value="">All statuses</option><option>Completed</option><option>In Progress</option></select></label>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>STAFF MEMBER</th><th>DATE</th><th>DEPARTMENT</th><th>WORK COMPLETED</th><th>QTY</th><th>STATUS</th><th aria-label="Delete record"></th></tr></thead><tbody id="records-body"></tbody></table>
+          <div id="empty-state" class="empty-state"><span class="empty-icon">✳</span><strong>No work records yet</strong><p>Your saved entries will appear here. Add the first one above to get started.</p></div>
+          <div id="no-results" class="empty-state hidden"><strong>No matching records</strong><p>Try a different search or clear the filters.</p></div>
+        </div>
+        <div class="table-footer"><span>Records are saved automatically on this device.</span><span>ODEEN CLOTHING <i>·</i> WORK LOG</span></div>
+      </section>
+      <footer class="page-footer">MADE FOR THE WORK BEHIND EVERY PIECE <span>ODEEN © 2021</span></span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
