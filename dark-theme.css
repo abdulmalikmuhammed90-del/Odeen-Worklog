@@ -1,0 +1,59 @@
+/* Dark theme for the signed-in worklog; the sign-in page keeps its own styles. */
+body{background:#050505}
+.app-shell{
+  --ink:#f1f1f1;
+  --muted:#b3b3b3;
+  --line:#303030;
+  --paper:#050505;
+  --white:#141414;
+  --green:#54745e;
+  --green-dark:#b8d2bc;
+  --gold:#c6a76c;
+  min-height:100vh;
+  background:#050505;
+  color:#f1f1f1;
+}
+.app-shell .sidebar{background:#0c0c0c;border-color:#303030}
+.app-shell .brand,.app-shell .brand-wordmark{color:#f1f1f1}
+.app-shell .brand-mark-image{filter:grayscale(1) brightness(0) invert(1)}
+.app-shell .nav-item{color:#c2c2c2}
+.app-shell .nav-item.active{background:#1c2a20;color:#c4dfc8}
+.app-shell .nav-count{background:#222;color:#d9d9d9}
+.app-shell .sidebar-note p{color:#dedede}
+.app-shell .main-content{background:#050505}
+.app-shell .breadcrumb,.app-shell .today-label,.app-shell .breadcrumb strong{color:#b9b9b9}
+.app-shell .intro,.app-shell .eyebrow,.app-shell .date-stamp span,.app-shell .date-stamp strong{color:#b5b5b5}
+.app-shell h1,.app-shell h2,.app-shell h3,.app-shell strong,.app-shell .required-hint,
+.app-shell .field>span,.app-shell .table-wrap th,.app-shell .table-wrap td,
+.app-shell .page-footer,.app-shell .primary-button{color:#f1f1f1}
+.app-shell .panel,.app-shell .metric-card{background:#141414;border-color:#303030}
+.app-shell .metric-card>strong{color:#d6e5d8}
+.app-shell .metric-card>small,.app-shell .metric-top{color:#b5b5b5}
+.app-shell .form-footer,.app-shell .topbar,.app-shell .work-record-totals{border-color:#303030}
+.app-shell .field input,.app-shell .field select,.app-shell .field textarea,
+.app-shell .filter-select input,.app-shell .filter-select select,.app-shell .search-box{
+  background:#1c1c1c;border-color:#3b3b3b;color:#f1f1f1
+}
+.app-shell input[type="date"]{color-scheme:dark}
+.app-shell .field input::placeholder,.app-shell .field textarea::placeholder,
+.app-shell .search-box input::placeholder{color:#969696}
+.app-shell .field input:focus,.app-shell .field select:focus,.app-shell .field textarea:focus,
+.app-shell .filter-select input:focus,.app-shell .filter-select select:focus,
+.app-shell .search-box:focus-within{border-color:#86a58c;box-shadow:0 0 0 2px #86a58c30}
+.app-shell .privacy-note,.app-shell .lock-icon,.app-shell .text-button{color:#b8b8b8}
+.app-shell .text-button span{color:#d3b779}
+.app-shell thead{background:#202020}
+.app-shell td{border-color:#303030;color:#e0e0e0}
+.app-shell .staff-info strong,.app-shell .work-cell,.app-shell .qty-cell{color:#f1f1f1}
+.app-shell .staff-info small,.app-shell .category-label{color:#b7b7b7}
+.app-shell .avatar{background:#28332a;color:#e2eee4}
+.app-shell .badge.completed{background:#1c2b20;color:#b6d8bd}
+.app-shell .badge.progress{background:#332b1c;color:#e1c58f}
+.app-shell .delete-button{color:#c2c2c2}
+.app-shell .delete-button:hover{color:#ff9b82}
+.app-shell .empty-state,.app-shell .empty-state p{color:#b6b6b6}
+.app-shell .empty-state strong{color:#f1f1f1}
+.app-shell .empty-icon{color:#d3b779}
+.app-shell .records-heading h2 span{background:#282828;color:#d0d0d0}
+.app-shell .table-footer{color:#b0b0b0;border-color:#303030}
+.app-shell .work-record-grand-total td{border-color:#454545;color:#d3e6d6}
