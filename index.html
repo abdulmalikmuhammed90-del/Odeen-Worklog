@@ -73,11 +73,11 @@
         <form id="manager-weekly-form">
           <label class="field"><span>WEEK COMMENCING (MONDAY)</span><input id="manager-week" type="date" required></label>
           <label class="field"><span>NAME</span><input id="manager-client-name" maxlength="160" placeholder="Client name" required></label>
-          <label class="field"><span>NUMBER OF ORDER</span><input id="manager-order-count" type="number" min="1" step="1" placeholder="0" required></label>
-          <div class="form-footer"><span class="privacy-note">Each client is listed once per week; saving again updates its order count.</span><button class="primary-button" type="submit"><span>Add to register</span><span class="button-arrow">↗</span></button></div>
+          <label class="field"><span>QUANTITY</span><input id="manager-order-count" type="number" min="1" step="1" placeholder="0" required></label>
+          <div class="form-footer"><span class="privacy-note">Each client is listed once per week; saving again updates its quantity.</span><button class="primary-button" type="submit"><span>Add to register</span><span class="button-arrow">↗</span></button></div>
         </form>
         <div class="table-wrap manager-weekly-history">
-          <table><thead><tr><th>WEEK (MON–SUN)</th><th>NO.</th><th>NAME</th><th>NUMBER OF ORDER</th><th>LAST UPDATED</th></tr></thead><tbody id="manager-weekly-body"></tbody></table>
+          <table><thead><tr><th>WEEK (MON–SUN)</th><th>NO.</th><th>NAME</th><th>QUANTITY</th><th>LAST UPDATED</th><th aria-label="Clear saved log"></th></tr></thead><tbody id="manager-weekly-body"></tbody></table>
           <div id="manager-weekly-empty" class="empty-state"><strong>No commissioned orders logged yet</strong><p>Saved client orders will appear here in numbered weekly lists.</p></div>
         </div>
       </section>
@@ -112,7 +112,7 @@
         </div>
         <div class="table-footer"><span>Records sync across signed-in devices.</span><span>ODEEN CLOTHING <i>·</i> WORK LOG</span></div>
       </section>
-      <footer class="page-footer">MADE FOR THE WORK BEHIND EVERY PIECE <span>ODEEN © <span id="year"></span></span></footer>
+      <footer class="page-footer">DETAILS IN PERFECTION <span>ODEEN © <span id="year"></span></span></footer>
     </main>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

@@ -10,7 +10,7 @@ create table if not exists public.weekly_client_orders (
 
 alter table public.weekly_client_orders enable row level security;
 
-grant select, insert, update on public.weekly_client_orders to authenticated;
+grant select, insert, update, delete on public.weekly_client_orders to authenticated;
 
 drop policy if exists "Managers can read weekly client orders" on public.weekly_client_orders;
 create policy "Managers can read weekly client orders"
@@ -45,6 +45,16 @@ create policy "Managers can update weekly client orders"
   with check (
     updated_by = auth.uid()
     and exists (
+      select 1 from public.profiles
+      where profiles.id = auth.uid() and lower(profiles.role) = 'manager'
+    )
+  );
+
+drop policy if exists "Managers can delete weekly client orders" on public.weekly_client_orders;
+create policy "Managers can delete weekly client orders"
+  on public.weekly_client_orders for delete to authenticated
+  using (
+    exists (
       select 1 from public.profiles
       where profiles.id = auth.uid() and lower(profiles.role) = 'manager'
     )

@@ -91,6 +91,16 @@ function renderManagerWeeklyLogs() {
     addCell(row, '', new Date(log.updated_at).toLocaleString('en-NG', {
       day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
     }));
+    const actionCell = document.createElement('td');
+    const clearButton = document.createElement('button');
+    clearButton.type = 'button';
+    clearButton.className = 'delete-button';
+    clearButton.textContent = '×';
+    clearButton.title = 'Clear saved log';
+    clearButton.setAttribute('aria-label', `Clear saved log for ${log.client_name}, week of ${formatDate(log.week_start)}`);
+    clearButton.addEventListener('click', () => deleteManagerWeeklyLog(log.id, log.client_name, log.week_start));
+    actionCell.append(clearButton);
+    row.append(actionCell);
     body.append(row);
   });
   document.querySelector('#manager-weekly-empty').classList.toggle('hidden', managerWeeklyLogs.length > 0);
@@ -293,6 +303,19 @@ async function deleteRecord(id) {
   if (error) return showToast(`Could not delete record: ${error.message}`, true);
   await loadRecords();
   showToast('Work record deleted.');
+}
+
+async function deleteManagerWeeklyLog(id, clientName, weekStartDate) {
+  const week = formatDate(weekStartDate);
+  if (!window.confirm(`Clear the saved order log for ${clientName} for the week of ${week}? This cannot be undone.`)) return;
+  const { error } = await db.from('weekly_client_orders').delete().eq('id', id);
+  if (error) return showToast(`Could not clear saved log: ${error.message}`, true);
+  try {
+    await loadManagerWeeklyLogs();
+    showToast('Saved client order log cleared.');
+  } catch (error) {
+    showToast(`Cleared, but the register could not refresh: ${error.message}`, true);
+  }
 }
 
 signInForm.addEventListener('submit', async event => {
