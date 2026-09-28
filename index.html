@@ -69,16 +69,16 @@
       </section>
 
       <section id="manager-weekly-panel" class="panel manager-weekly-panel hidden" aria-labelledby="manager-weekly-title">
-        <div class="records-heading"><div><div class="eyebrow">MANAGEMENT RECORD</div><h2 id="manager-weekly-title">Client orders this week</h2></div></div>
+        <div class="records-heading"><div><div class="eyebrow">WORK COMMISSIONED</div><h2 id="manager-weekly-title">Client order register</h2></div></div>
         <form id="manager-weekly-form">
           <label class="field"><span>WEEK COMMENCING (MONDAY)</span><input id="manager-week" type="date" required></label>
-          <label class="field"><span>NAME OF CLIENT</span><input id="manager-client-name" maxlength="160" placeholder="Client name" required></label>
-          <label class="field"><span>NUMBER OF ORDERS</span><input id="manager-order-count" type="number" min="1" step="1" placeholder="0" required></label>
-          <div class="form-footer"><span class="privacy-note">One client record per week. Save again to update it.</span><button class="primary-button" type="submit"><span>Save client log</span><span class="button-arrow">↗</span></button></div>
+          <label class="field"><span>NAME</span><input id="manager-client-name" maxlength="160" placeholder="Client name" required></label>
+          <label class="field"><span>NUMBER OF ORDER</span><input id="manager-order-count" type="number" min="1" step="1" placeholder="0" required></label>
+          <div class="form-footer"><span class="privacy-note">Each client is listed once per week; saving again updates its order count.</span><button class="primary-button" type="submit"><span>Add to register</span><span class="button-arrow">↗</span></button></div>
         </form>
         <div class="table-wrap manager-weekly-history">
-          <table><thead><tr><th>WEEK (MON–SUN)</th><th>NAME OF CLIENT</th><th>NUMBER OF ORDERS</th><th>LAST UPDATED</th></tr></thead><tbody id="manager-weekly-body"></tbody></table>
-          <div id="manager-weekly-empty" class="empty-state"><strong>No weekly management records yet</strong><p>Saved weekly notes will appear here.</p></div>
+          <table><thead><tr><th>WEEK (MON–SUN)</th><th>NO.</th><th>NAME</th><th>NUMBER OF ORDER</th><th>LAST UPDATED</th></tr></thead><tbody id="manager-weekly-body"></tbody></table>
+          <div id="manager-weekly-empty" class="empty-state"><strong>No commissioned orders logged yet</strong><p>Saved client orders will appear here in numbered weekly lists.</p></div>
         </div>
       </section>
 

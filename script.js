@@ -74,9 +74,18 @@ function weekEnd(start) {
 function renderManagerWeeklyLogs() {
   const body = document.querySelector('#manager-weekly-body');
   body.replaceChildren();
+  let currentWeek = '';
+  let weekEntryNumber = 0;
   managerWeeklyLogs.forEach(log => {
+    if (log.week_start !== currentWeek) {
+      currentWeek = log.week_start;
+      weekEntryNumber = 1;
+    } else {
+      weekEntryNumber += 1;
+    }
     const row = document.createElement('tr');
     addCell(row, 'week-label', `${formatDate(log.week_start)} – ${formatDate(weekEnd(log.week_start))}`);
+    addCell(row, 'manager-sequence', String(weekEntryNumber));
     addCell(row, '', log.client_name);
     addCell(row, 'qty-cell', Number(log.order_count).toLocaleString());
     addCell(row, '', new Date(log.updated_at).toLocaleString('en-NG', {
@@ -169,7 +178,8 @@ async function loadRecords() {
 async function loadManagerWeeklyLogs() {
   const { data, error } = await db.from('weekly_client_orders')
     .select('id, week_start, client_name, order_count, updated_at')
-    .order('week_start', { ascending: false });
+    .order('week_start', { ascending: false })
+    .order('client_name', { ascending: true });
   if (error) throw error;
   managerWeeklyLogs = data;
   renderManagerWeeklyLogs();
