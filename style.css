@@ -10,6 +10,11 @@
 .manager-weekly-history .manager-sequence{width:56px;text-align:center;font-variant-numeric:tabular-nums}
 .manager-weekly-history .manager-qty-header,.manager-weekly-history .manager-qty-value{width:96px;text-align:center;font-variant-numeric:tabular-nums}
 @media(max-width:700px){.manager-weekly-panel{padding:18px 13px;margin-bottom:14px}.manager-weekly-panel h2{font-size:19px}.manager-weekly-panel .form-footer{align-items:flex-start}}
+.work-record-totals{margin:22px 0 12px;padding-top:16px;border-top:1px solid var(--line)}
+.work-record-totals h3{margin:0 0 10px;font:600 17px/1.3 var(--serif)}
+.work-record-totals .table-wrap{max-width:480px}
+.work-record-totals table{width:100%;min-width:0}
+.work-record-totals th:last-child,.work-record-totals td:last-child{text-align:right;white-space:nowrap}
 
 /* Piecework summary */
 .weekly-panel{padding:22px 25px 0;margin-bottom:18px}

@@ -106,41 +106,6 @@ function renderManagerWeeklyLogs() {
   document.querySelector('#manager-weekly-empty').classList.toggle('hidden', managerWeeklyLogs.length > 0);
 }
 
-function renderWeeklySummary() {
-  const summaryBody = document.querySelector('#weekly-summary-body');
-  if (profile?.role?.toLowerCase() === 'manager') {
-    summaryBody.replaceChildren();
-    document.querySelector('#weekly-empty').classList.add('hidden');
-    return;
-  }
-
-  const weeks = new Map();
-  records.forEach(record => {
-    const rate = pieceworkRates[record.category];
-    if (!rate) return;
-    const start = weekStart(record.date);
-    if (!weeks.has(start)) weeks.set(start, { Trouser: 0, Top: 0, Cap: 0 });
-    weeks.get(start)[record.category] += rate * Number(record.quantity || 0);
-  });
-
-  const weekRows = [...weeks.entries()].sort(([a], [b]) => b.localeCompare(a));
-  summaryBody.replaceChildren();
-  weekRows.forEach(([start, totals]) => {
-    const endDate = new Date(`${start}T12:00:00`);
-    endDate.setDate(endDate.getDate() + 6);
-    const row = document.createElement('tr');
-    const weekCell = addCell(row, '', `${formatDate(start)} – ${formatDate(localDateString(endDate))}`);
-    weekCell.classList.add('week-label');
-    addCell(row, '', nairaFormat.format(totals.Trouser));
-    addCell(row, '', nairaFormat.format(totals.Top));
-    addCell(row, '', nairaFormat.format(totals.Cap));
-    const total = totals.Trouser + totals.Top + totals.Cap;
-    addCell(row, 'weekly-total', nairaFormat.format(total));
-    summaryBody.append(row);
-  });
-  document.querySelector('#weekly-empty').classList.toggle('hidden', weekRows.length > 0);
-}
-
 function showToast(message, isError = false) {
   const toast = document.querySelector('#toast');
   toast.textContent = message;
@@ -195,6 +160,28 @@ async function loadManagerWeeklyLogs() {
   renderManagerWeeklyLogs();
 }
 
+function renderWorkRecordTotals(visibleRecords) {
+  const totalsPanel = document.querySelector('#work-record-totals');
+  const totalsBody = document.querySelector('#work-record-totals-body');
+  totalsBody.replaceChildren();
+
+  const totalsByStaff = new Map();
+  visibleRecords.forEach(record => {
+    if (!totalsByStaff.has(record.staff)) totalsByStaff.set(record.staff, 0);
+    const rate = pieceworkRates[record.category];
+    if (!rate) return;
+    totalsByStaff.set(record.staff, totalsByStaff.get(record.staff) + rate * Number(record.quantity || 0));
+  });
+
+  [...totalsByStaff.entries()].sort(([a], [b]) => a.localeCompare(b)).forEach(([staff, total]) => {
+    const row = document.createElement('tr');
+    addCell(row, '', staff);
+    addCell(row, 'value-cell', nairaFormat.format(total));
+    totalsBody.append(row);
+  });
+  totalsPanel.classList.toggle('hidden', totalsByStaff.size === 0);
+}
+
 function renderRecords() {
   const query = searchInput.value.trim().toLowerCase();
   const chosenDate = dateFilter.value;
@@ -219,10 +206,6 @@ function renderRecords() {
     const workCell = addCell(row, 'work-cell', record.description);
     if (record.notes) workCell.title = record.notes;
     addCell(row, 'qty-cell', String(record.quantity));
-    if (profile?.role?.toLowerCase() !== 'manager') {
-      const rate = pieceworkRates[record.category];
-      addCell(row, 'value-cell', rate ? nairaFormat.format(rate * Number(record.quantity || 0)) : '—');
-    }
     const badgeCell = document.createElement('td');
     const badge = document.createElement('span'); badge.className = `badge ${record.status === 'Completed' ? 'completed' : 'progress'}`; badge.textContent = record.status;
     badgeCell.append(badge); row.append(badgeCell);
@@ -240,7 +223,7 @@ function renderRecords() {
   document.querySelector('#visible-count').textContent = visibleRecords.length;
   document.querySelector('#empty-state').classList.toggle('hidden', records.length > 0);
   document.querySelector('#no-results').classList.toggle('hidden', records.length === 0 || visibleRecords.length > 0);
-  renderWeeklySummary();
+  renderWorkRecordTotals(visibleRecords);
 }
 
 async function showSignedInWorkspace(session) {
@@ -264,9 +247,6 @@ async function showSignedInWorkspace(session) {
     const isManager = profile.role?.toLowerCase() === 'manager';
     appShell.classList.toggle('manager-mode', isManager);
     document.querySelector('#staff-metrics').classList.toggle('hidden', isManager);
-    document.querySelector('#staff-weekly-panel').classList.toggle('hidden', isManager);
-    document.querySelector('#staff-entry-panel').classList.toggle('hidden', isManager);
-    document.querySelector('#work-value-header').classList.toggle('hidden', isManager);
     managerWeeklyPanel.classList.toggle('hidden', !isManager);
     managerWeeklyLogs = [];
     renderManagerWeeklyLogs();
