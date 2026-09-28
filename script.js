@@ -173,12 +173,23 @@ function renderWorkRecordTotals(visibleRecords) {
     totalsByStaff.set(record.staff, totalsByStaff.get(record.staff) + rate * Number(record.quantity || 0));
   });
 
-  [...totalsByStaff.entries()].sort(([a], [b]) => a.localeCompare(b)).forEach(([staff, total]) => {
+  const sortedTotals = [...totalsByStaff.entries()].sort(([a], [b]) => a.localeCompare(b));
+  sortedTotals.forEach(([staff, total]) => {
     const row = document.createElement('tr');
     addCell(row, '', staff);
     addCell(row, 'value-cell', nairaFormat.format(total));
     totalsBody.append(row);
   });
+
+  if (profile?.role?.toLowerCase() === 'manager' && sortedTotals.length > 0) {
+    const grandTotal = sortedTotals.reduce((sum, [, total]) => sum + total, 0);
+    const totalRow = document.createElement('tr');
+    totalRow.className = 'work-record-grand-total';
+    addCell(totalRow, '', 'ALL USERS TOTAL');
+    addCell(totalRow, 'value-cell', nairaFormat.format(grandTotal));
+    totalsBody.append(totalRow);
+  }
+
   totalsPanel.classList.toggle('hidden', totalsByStaff.size === 0);
 }
 
