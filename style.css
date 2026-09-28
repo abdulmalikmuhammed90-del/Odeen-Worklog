@@ -1,3 +1,15 @@
+/* Manager weekly work log */
+.manager-weekly-panel{padding:22px 25px;margin-bottom:18px}
+.manager-weekly-panel .records-heading{margin-bottom:16px}
+.manager-weekly-panel h2{margin:0;font:600 22px/1.25 var(--serif)}
+.manager-weekly-panel form{display:grid;gap:14px}
+.manager-weekly-panel .field{max-width:720px}
+.manager-weekly-panel .form-footer{margin-top:0}
+.manager-weekly-history{margin-top:22px}
+.manager-weekly-history .week-label{white-space:nowrap}
+.manager-weekly-history .manager-weekly-summary{min-width:260px;white-space:pre-wrap;font-weight:500}
+@media(max-width:700px){.manager-weekly-panel{padding:18px 13px;margin-bottom:14px}.manager-weekly-panel h2{font-size:19px}.manager-weekly-panel .form-footer{align-items:flex-start}}
+
 /* Piecework summary */
 .weekly-panel{padding:22px 25px 0;margin-bottom:18px}
 .weekly-panel .records-heading{margin-bottom:12px}
