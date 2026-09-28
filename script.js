@@ -16,6 +16,10 @@ const recordsBody = document.querySelector('#records-body');
 const searchInput = document.querySelector('#search');
 const dateFilter = document.querySelector('#filter-date');
 const statusFilter = document.querySelector('#filter-status');
+const pieceworkRates = { Trouser: 1500, Top: 2000, Cap: 500 };
+const nairaFormat = new Intl.NumberFormat('en-NG', {
+  style: 'currency', currency: 'NGN', maximumFractionDigits: 0
+});
 let records = [];
 let profile = null;
 let toastTimer;
@@ -45,6 +49,41 @@ function addCell(row, className, value) {
 
 function initials(name) {
   return name.trim().split(/\s+/).slice(0, 2).map(part => part[0] || '').join('').toUpperCase();
+}
+
+function weekStart(dateValue) {
+  const date = new Date(`${dateValue}T12:00:00`);
+  date.setDate(date.getDate() - (date.getDay() + 6) % 7);
+  return localDateString(date);
+}
+
+function renderWeeklySummary() {
+  const weeks = new Map();
+  records.forEach(record => {
+    const rate = pieceworkRates[record.category];
+    if (!rate) return;
+    const start = weekStart(record.date);
+    if (!weeks.has(start)) weeks.set(start, { Trouser: 0, Top: 0, Cap: 0 });
+    weeks.get(start)[record.category] += rate * Number(record.quantity || 0);
+  });
+
+  const summaryBody = document.querySelector('#weekly-summary-body');
+  const weekRows = [...weeks.entries()].sort(([a], [b]) => b.localeCompare(a));
+  summaryBody.replaceChildren();
+  weekRows.forEach(([start, totals]) => {
+    const endDate = new Date(`${start}T12:00:00`);
+    endDate.setDate(endDate.getDate() + 6);
+    const row = document.createElement('tr');
+    const weekCell = addCell(row, '', `${formatDate(start)} – ${formatDate(localDateString(endDate))}`);
+    weekCell.classList.add('week-label');
+    addCell(row, '', nairaFormat.format(totals.Trouser));
+    addCell(row, '', nairaFormat.format(totals.Top));
+    addCell(row, '', nairaFormat.format(totals.Cap));
+    const total = totals.Trouser + totals.Top + totals.Cap;
+    addCell(row, 'weekly-total', nairaFormat.format(total));
+    summaryBody.append(row);
+  });
+  document.querySelector('#weekly-empty').classList.toggle('hidden', weekRows.length > 0);
 }
 
 function showToast(message, isError = false) {
@@ -115,6 +154,8 @@ function renderRecords() {
     const workCell = addCell(row, 'work-cell', record.description);
     if (record.notes) workCell.title = record.notes;
     addCell(row, 'qty-cell', String(record.quantity));
+    const rate = pieceworkRates[record.category];
+    addCell(row, 'value-cell', rate ? nairaFormat.format(rate * Number(record.quantity || 0)) : '—');
     const badgeCell = document.createElement('td');
     const badge = document.createElement('span'); badge.className = `badge ${record.status === 'Completed' ? 'completed' : 'progress'}`; badge.textContent = record.status;
     badgeCell.append(badge); row.append(badgeCell);
@@ -132,6 +173,7 @@ function renderRecords() {
   document.querySelector('#visible-count').textContent = visibleRecords.length;
   document.querySelector('#empty-state').classList.toggle('hidden', records.length > 0);
   document.querySelector('#no-results').classList.toggle('hidden', records.length === 0 || visibleRecords.length > 0);
+  renderWeeklySummary();
 }
 
 async function showSignedInWorkspace(session) {
