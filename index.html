@@ -23,7 +23,7 @@
       <p class="auth-intro">Sign in to record work and view your shared workspace.</p>
       <form id="sign-in-form">
         <label class="field"><span>EMAIL ADDRESS</span><input name="email" type="email" autocomplete="username" required></label>
-        <label class="field"><span>PASSWORD</span><input name="password" type="password" autocomplete="current-password" required></label>
+        <label class="field"><span>PASSWORD</span><span class="password-field"><input name="password" id="password" type="password" autocomplete="current-password" required><button id="toggle-password" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></span></label>
         <button class="primary-button auth-submit" type="submit"><span>Sign in</span><span class="button-arrow">↗</span></button>
         <p id="auth-message" class="auth-message" role="status" aria-live="polite"></p>
       </form>

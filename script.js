@@ -11,6 +11,8 @@ const authView = document.querySelector('#auth-view');
 const appShell = document.querySelector('#app-shell');
 const signInForm = document.querySelector('#sign-in-form');
 const authMessage = document.querySelector('#auth-message');
+const passwordInput = document.querySelector('#password');
+const passwordToggle = document.querySelector('#toggle-password');
 const form = document.querySelector('#work-form');
 const recordsBody = document.querySelector('#records-body');
 const searchInput = document.querySelector('#search');
@@ -230,6 +232,14 @@ signInForm.addEventListener('submit', async event => {
   signInForm.reset();
   setAuthMessage('Signed in.', true);
   await showSignedInWorkspace(result.session);
+});
+
+passwordToggle.addEventListener('click', () => {
+  const isVisible = passwordInput.type === 'password';
+  passwordInput.type = isVisible ? 'text' : 'password';
+  passwordToggle.textContent = isVisible ? 'Hide' : 'Show';
+  passwordToggle.setAttribute('aria-label', `${isVisible ? 'Hide' : 'Show'} password`);
+  passwordToggle.setAttribute('aria-pressed', String(isVisible));
 });
 
 document.querySelector('#sign-out').addEventListener('click', async () => {
