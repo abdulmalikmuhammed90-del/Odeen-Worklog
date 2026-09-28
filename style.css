@@ -7,7 +7,7 @@
 .manager-weekly-panel .form-footer{margin-top:0}
 .manager-weekly-history{margin-top:22px}
 .manager-weekly-history .week-label{white-space:nowrap}
-.manager-weekly-history .manager-weekly-summary{min-width:260px;white-space:pre-wrap;font-weight:500}
+.manager-weekly-history .qty-cell{text-align:right}
 @media(max-width:700px){.manager-weekly-panel{padding:18px 13px;margin-bottom:14px}.manager-weekly-panel h2{font-size:19px}.manager-weekly-panel .form-footer{align-items:flex-start}}
 
 /* Piecework summary */

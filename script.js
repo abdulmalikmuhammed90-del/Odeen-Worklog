@@ -19,9 +19,10 @@ const searchInput = document.querySelector('#search');
 const dateFilter = document.querySelector('#filter-date');
 const statusFilter = document.querySelector('#filter-status');
 const managerWeeklyPanel = document.querySelector('#manager-weekly-panel');
+const managerClientName = document.querySelector('#manager-client-name');
+const managerOrderCount = document.querySelector('#manager-order-count');
 const managerWeeklyForm = document.querySelector('#manager-weekly-form');
 const managerWeekInput = document.querySelector('#manager-week');
-const managerWeekSummary = document.querySelector('#manager-week-summary');
 const pieceworkRates = { Trouser: 1500, Top: 2000, Cap: 500 };
 const nairaFormat = new Intl.NumberFormat('en-NG', {
   style: 'currency', currency: 'NGN', maximumFractionDigits: 0
@@ -76,7 +77,8 @@ function renderManagerWeeklyLogs() {
   managerWeeklyLogs.forEach(log => {
     const row = document.createElement('tr');
     addCell(row, 'week-label', `${formatDate(log.week_start)} – ${formatDate(weekEnd(log.week_start))}`);
-    addCell(row, 'manager-weekly-summary', log.summary);
+    addCell(row, '', log.client_name);
+    addCell(row, 'qty-cell', Number(log.order_count).toLocaleString());
     addCell(row, '', new Date(log.updated_at).toLocaleString('en-NG', {
       day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
     }));
@@ -85,13 +87,14 @@ function renderManagerWeeklyLogs() {
   document.querySelector('#manager-weekly-empty').classList.toggle('hidden', managerWeeklyLogs.length > 0);
 }
 
-function showSelectedManagerWeek() {
-  const start = managerWeekInput.value;
-  const log = managerWeeklyLogs.find(item => item.week_start === start);
-  managerWeekSummary.value = log?.summary || '';
-}
-
 function renderWeeklySummary() {
+  const summaryBody = document.querySelector('#weekly-summary-body');
+  if (profile?.role?.toLowerCase() === 'manager') {
+    summaryBody.replaceChildren();
+    document.querySelector('#weekly-empty').classList.add('hidden');
+    return;
+  }
+
   const weeks = new Map();
   records.forEach(record => {
     const rate = pieceworkRates[record.category];
@@ -101,7 +104,6 @@ function renderWeeklySummary() {
     weeks.get(start)[record.category] += rate * Number(record.quantity || 0);
   });
 
-  const summaryBody = document.querySelector('#weekly-summary-body');
   const weekRows = [...weeks.entries()].sort(([a], [b]) => b.localeCompare(a));
   summaryBody.replaceChildren();
   weekRows.forEach(([start, totals]) => {
@@ -165,13 +167,12 @@ async function loadRecords() {
 }
 
 async function loadManagerWeeklyLogs() {
-  const { data, error } = await db.from('weekly_work_logs')
-    .select('week_start, summary, updated_at')
+  const { data, error } = await db.from('weekly_client_orders')
+    .select('id, week_start, client_name, order_count, updated_at')
     .order('week_start', { ascending: false });
   if (error) throw error;
   managerWeeklyLogs = data;
   renderManagerWeeklyLogs();
-  showSelectedManagerWeek();
 }
 
 function renderRecords() {
@@ -198,8 +199,10 @@ function renderRecords() {
     const workCell = addCell(row, 'work-cell', record.description);
     if (record.notes) workCell.title = record.notes;
     addCell(row, 'qty-cell', String(record.quantity));
-    const rate = pieceworkRates[record.category];
-    addCell(row, 'value-cell', rate ? nairaFormat.format(rate * Number(record.quantity || 0)) : '—');
+    if (profile?.role?.toLowerCase() !== 'manager') {
+      const rate = pieceworkRates[record.category];
+      addCell(row, 'value-cell', rate ? nairaFormat.format(rate * Number(record.quantity || 0)) : '—');
+    }
     const badgeCell = document.createElement('td');
     const badge = document.createElement('span'); badge.className = `badge ${record.status === 'Completed' ? 'completed' : 'progress'}`; badge.textContent = record.status;
     badgeCell.append(badge); row.append(badgeCell);
@@ -239,12 +242,18 @@ async function showSignedInWorkspace(session) {
     authView.classList.add('hidden');
     appShell.classList.remove('hidden');
     const isManager = profile.role?.toLowerCase() === 'manager';
+    appShell.classList.toggle('manager-mode', isManager);
+    document.querySelector('#staff-metrics').classList.toggle('hidden', isManager);
+    document.querySelector('#staff-weekly-panel').classList.toggle('hidden', isManager);
+    document.querySelector('#staff-entry-panel').classList.toggle('hidden', isManager);
+    document.querySelector('#work-value-header').classList.toggle('hidden', isManager);
     managerWeeklyPanel.classList.toggle('hidden', !isManager);
     managerWeeklyLogs = [];
     renderManagerWeeklyLogs();
     if (isManager) {
       managerWeekInput.value = weekStart(localDateString());
-      managerWeekSummary.value = '';
+      managerClientName.value = '';
+      managerOrderCount.value = '';
     }
     document.querySelector('#staff').value = profile.display_name;
     document.querySelector('#account-label').textContent = `${profile.display_name} · ${profile.role.toUpperCase()}`;
@@ -341,30 +350,39 @@ form.addEventListener('submit', async event => {
 managerWeekInput.addEventListener('change', () => {
   if (!managerWeekInput.value) return;
   managerWeekInput.value = weekStart(managerWeekInput.value);
-  showSelectedManagerWeek();
 });
 
 managerWeeklyForm.addEventListener('submit', async event => {
   event.preventDefault();
   if (profile?.role?.toLowerCase() !== 'manager') return showToast('Only managers can save weekly management records.', true);
-  const week = managerWeekInput.value;
-  const summary = managerWeekSummary.value.trim();
-  if (!week || !summary) return showToast('Choose a week and enter the work record.', true);
+  const week = weekStart(managerWeekInput.value);
+  const clientName = managerClientName.value.trim();
+  const orderCount = Number(managerOrderCount.value);
+  if (!managerWeekInput.value || !clientName || !Number.isInteger(orderCount) || orderCount < 1) {
+    return showToast('Choose a week, enter a client name, and enter at least one order.', true);
+  }
+
+  const existingLog = managerWeeklyLogs.find(log => log.week_start === week && log.client_name.trim().toLowerCase() === clientName.toLowerCase());
+  const weeklyLog = {
+    ...(existingLog ? { id: existingLog.id } : {}),
+    week_start: week,
+    client_name: clientName,
+    order_count: orderCount,
+    updated_by: profile.id,
+    updated_at: new Date().toISOString()
+  };
 
   const saveButton = managerWeeklyForm.querySelector('button[type="submit"]');
   saveButton.disabled = true;
-  const { error } = await db.from('weekly_work_logs').upsert({
-    week_start: weekStart(week),
-    summary,
-    updated_by: profile.id,
-    updated_at: new Date().toISOString()
-  }, { onConflict: 'week_start' });
+  const { error } = await db.from('weekly_client_orders').upsert(weeklyLog, { onConflict: 'id' });
   saveButton.disabled = false;
   if (error) return showToast(`Could not save weekly record: ${error.message}`, true);
 
+  managerClientName.value = '';
+  managerOrderCount.value = '';
   try {
     await loadManagerWeeklyLogs();
-    showToast('Weekly management record saved.');
+    showToast(existingLog ? 'Client order log updated.' : 'Client order log saved.');
   } catch (error) {
     showToast(`Saved, but the weekly record list could not refresh: ${error.message}`, true);
   }
