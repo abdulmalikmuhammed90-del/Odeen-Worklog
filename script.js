@@ -87,7 +87,7 @@ function renderManagerWeeklyLogs() {
     addCell(row, 'week-label', `${formatDate(log.week_start)} – ${formatDate(weekEnd(log.week_start))}`);
     addCell(row, 'manager-sequence', String(weekEntryNumber));
     addCell(row, '', log.client_name);
-    addCell(row, 'qty-cell', Number(log.order_count).toLocaleString());
+    addCell(row, 'manager-qty-value', Number(log.order_count).toLocaleString());
     addCell(row, '', new Date(log.updated_at).toLocaleString('en-NG', {
       day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
     }));
