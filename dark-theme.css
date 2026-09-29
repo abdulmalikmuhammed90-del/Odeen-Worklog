@@ -57,3 +57,5 @@ body{background:#050505}
 .app-shell .records-heading h2 span{background:#282828;color:#d0d0d0}
 .app-shell .table-footer{color:#b0b0b0;border-color:#303030}
 .app-shell .work-record-grand-total td{border-color:#454545;color:#d3e6d6}
+
+.app-shell .complete-work-button{border-color:#78947e;background:#294332;color:#eaf3ec}.app-shell .complete-work-button:hover{background:#385746}.app-shell .complete-work-button:disabled{opacity:.55}

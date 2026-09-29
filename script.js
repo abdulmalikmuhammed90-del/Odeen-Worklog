@@ -219,7 +219,17 @@ function renderRecords() {
     addCell(row, 'qty-cell', String(record.quantity));
     const badgeCell = document.createElement('td');
     const badge = document.createElement('span'); badge.className = `badge ${record.status === 'Completed' ? 'completed' : 'progress'}`; badge.textContent = record.status;
-    badgeCell.append(badge); row.append(badgeCell);
+    badgeCell.append(badge);
+    if (record.status === 'In Progress') {
+      const completeButton = document.createElement('button');
+      completeButton.type = 'button';
+      completeButton.className = 'complete-work-button';
+      completeButton.textContent = 'Mark complete';
+      completeButton.setAttribute('aria-label', `Mark ${record.staff}'s work record completed`);
+      completeButton.addEventListener('click', () => markRecordCompleted(record.id, completeButton));
+      badgeCell.append(completeButton);
+    }
+    row.append(badgeCell);
     const actionCell = document.createElement('td');
     const removeButton = document.createElement('button'); removeButton.type = 'button'; removeButton.className = 'delete-button'; removeButton.textContent = '×'; removeButton.setAttribute('aria-label', `Delete record for ${record.staff}`);
     removeButton.addEventListener('click', () => deleteRecord(record.id)); actionCell.append(removeButton); row.append(actionCell);
@@ -294,6 +304,17 @@ async function deleteRecord(id) {
   if (error) return showToast(`Could not delete record: ${error.message}`, true);
   await loadRecords();
   showToast('Work record deleted.');
+}
+
+async function markRecordCompleted(id, button) {
+  button.disabled = true;
+  const { error } = await db.from('work_records').update({ status: 'Completed' }).eq('id', id);
+  if (error) {
+    button.disabled = false;
+    return showToast(`Could not update work record: ${error.message}`, true);
+  }
+  await loadRecords();
+  showToast('Work record marked completed.');
 }
 
 async function deleteManagerWeeklyLog(id, clientName, weekStartDate) {
