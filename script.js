@@ -23,7 +23,7 @@ const managerClientName = document.querySelector('#manager-client-name');
 const managerOrderCount = document.querySelector('#manager-order-count');
 const managerWeeklyForm = document.querySelector('#manager-weekly-form');
 const managerWeekInput = document.querySelector('#manager-week');
-const pieceworkRates = { Trouser: 1500, Top: 2000, Cap: 500 };
+const pieceworkRates = { Trouser: 1300, Top: 2000, Cap: 500 };
 const nairaFormat = new Intl.NumberFormat('en-NG', {
   style: 'currency', currency: 'NGN', maximumFractionDigits: 0
 });
