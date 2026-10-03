@@ -22,8 +22,7 @@
 .auth-submit:hover{background:#f0f0f0;transform:translateY(-1px)}
 .auth-submit:disabled{opacity:.7;cursor:wait}
 .auth-submit>span:first-child{grid-column:2;color:#080808}
-.auth-submit .button-arrow{grid-column:3;justify-self:end;color:#45c9eb;font:800 43px/1 Arial,sans-serif;letter-spacing:-.22em;padding-right:12px}
-.auth-submit:focus-visible{outline:3px solid #45c9eb;outline-offset:4px}
+.auth-submit:focus-visible{outline:3px solid #c8c8c8;outline-offset:4px}
 .auth-message{min-height:18px;margin:-31px 0 0;color:#ff9b82;font:12px/1.5 var(--sans,Arial,sans-serif)}
 .auth-message.success{color:#9bc99a}
 .account-controls{display:flex;align-items:center;gap:18px}
@@ -34,3 +33,31 @@
 @media(max-width:700px){.brand-mark-image{width:35px;height:35px}}
 
 @media(max-width:600px){.auth-input-icon.auth-key-icon{width:44px;height:44px}}
+
+/* Blue glass login inspired by the supplied reference image. */
+.auth-view{position:relative;isolation:isolate;min-height:100vh;min-height:100svh;overflow:hidden;padding:28px 20px;background:radial-gradient(ellipse at 73% 21%,#292929 0%,#111 35%,transparent 61%),radial-gradient(ellipse at 25% 80%,#202020 0%,#080808 53%,transparent 77%),#030303}
+.auth-view:before{content:"";position:absolute;z-index:-1;left:50%;top:50%;width:min(76vw,760px);height:118svh;min-height:780px;transform:translate(-50%,-50%);border:9px solid #9a9a9a;border-radius:50%;box-shadow:inset 0 0 52px #9995,0 0 30px #aaa6;pointer-events:none}
+.auth-view:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(43deg,transparent 48.8%,#aaa2 49%,#aaa2 49.15%,transparent 49.3%);pointer-events:none}
+.auth-card{position:relative;z-index:1;width:min(100%,390px);padding:28px 36px 30px;border:1px solid #d2d2d24d;border-radius:12px;background:linear-gradient(145deg,#151515e8,#080808d9 70%,#111e);box-shadow:0 18px 65px #0009,0 0 35px #aaa2;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);text-align:center}
+.auth-logo{width:66px;height:66px;margin:0 auto 8px;filter:drop-shadow(0 0 10px #ddd4)}
+.auth-card h1{margin:0;color:#f7f8ff;font:700 32px/1.2 var(--sans,Arial,sans-serif);letter-spacing:0;white-space:normal}
+.auth-card h1 span{color:inherit}
+.auth-intro{margin:3px 0 22px;color:#c4c4c4;font:500 11px/1.4 var(--sans,Arial,sans-serif);letter-spacing:.16em}
+.auth-card form{gap:16px;margin:0}
+.auth-input-icon{left:15px;width:25px;height:25px}
+.auth-key-icon{width:29px;height:29px;filter:drop-shadow(0 0 5px #ddd8)}
+.auth-card .auth-input>input,.auth-card .password-field input{height:46px;padding:0 48px 0 50px;border:1px solid #929292a8;border-radius:25px;background:#080808b8;color:#f5f5f5;font:400 14px/1 var(--sans,Arial,sans-serif);box-shadow:inset 0 0 14px #aaa2}
+.auth-card .password-field input{padding-right:62px}
+.auth-card .auth-input>input::placeholder,.auth-card .password-field input::placeholder{color:#d5d5d5;opacity:1}
+.auth-card .auth-input>input:focus,.auth-card .password-field input:focus{border-color:#dedede;box-shadow:0 0 0 2px #ddd4,0 0 16px #ddd5}
+.password-toggle{right:11px;color:#d1d1d1;font-size:10px}
+.password-toggle:focus-visible{outline-color:#ddd}
+.auth-submit{display:flex;justify-content:center;width:100%;height:42px;margin-top:1px;padding:0 18px;border:0;border-radius:24px;background:#f4f5fa;color:#141522;font:700 14px/1 var(--sans,Arial,sans-serif);box-shadow:0 4px 16px #0005;transition:background .15s,transform .15s}
+.auth-submit:hover{background:#d7d7d7;transform:translateY(-1px)}
+.auth-submit>span:first-child{color:#141522}
+.auth-submit:focus-visible{outline:3px solid #c8c8c8;outline-offset:4px}
+.auth-submit:disabled{opacity:.72;cursor:wait}
+.auth-message{min-height:16px;margin:0;color:#ffaaa6;font-size:11px}
+.auth-message.success{color:#a9e5b1}
+@media(max-width:600px){.auth-view{padding:22px 18px}.auth-view:before{width:94vw;height:116svh;min-height:690px;border-width:7px}.auth-card{width:min(100%,390px);padding:25px 24px 26px}.auth-logo{width:58px;height:58px;margin-bottom:7px}.auth-card h1{font-size:29px}.auth-intro{margin:3px 0 19px}.auth-card form{gap:14px}.auth-submit{height:44px}.auth-input-icon{left:14px;width:24px;height:24px}.auth-key-icon{width:28px;height:28px}.auth-card .auth-input>input,.auth-card .password-field input{height:46px;padding-left:46px;padding-right:58px;font-size:14px}.auth-card .password-field input{padding-right:62px}.password-toggle{right:9px}}
+@media(max-height:600px){.auth-view{place-items:center}.auth-logo{width:46px;height:46px}.auth-card{padding-top:18px;padding-bottom:18px}.auth-intro{margin-bottom:13px}}

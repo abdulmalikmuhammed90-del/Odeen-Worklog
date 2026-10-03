@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="auth.css?v=20261003-1">
+  <link rel="stylesheet" href="auth.css?v=20261003-2">
   <link rel="stylesheet" href="dark-theme.css?v=20260929-1">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="supabase-config.js"></script>
@@ -19,12 +19,12 @@
   <section id="auth-view" class="auth-view" aria-labelledby="auth-title">
     <div class="auth-card">
       <img src="brand-logo.png.PNG" alt="ODEEN emblem" class="auth-logo">
-      <h1 id="auth-title">WELCOME BACK</h1>
-      <p class="auth-intro">Sign in to continue</p>
+      <h1 id="auth-title">Login</h1>
+      <p class="auth-intro">ODEEN WORK LOG</p>
       <form id="sign-in-form">
-        <label class="field auth-input"><span class="sr-only">Email</span><span class="auth-input-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="1" y="1" width="46" height="46" rx="11" fill="#5875e8"/><circle cx="22" cy="17" r="7" fill="#f6eee4"/><path d="M9 36c1.8-7 6.1-10 13-10s11.2 3 13 10v3H9z" fill="#f6eee4"/><circle cx="36" cy="35" r="8" fill="#3158cf"/><path d="m32.7 35 2.2 2.2 4.3-4.7" fill="none" stroke="#dce6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><input name="email" type="email" autocomplete="username" placeholder="Email" required></label>
-        <label class="field auth-input"><span class="sr-only">Password</span><span class="auth-input-icon auth-key-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M31 3.5a13.5 13.5 0 0 0-11.8 20.1L3 39.8V45h9v-6h6v-6h6.2l4.6-4.6A13.5 13.5 0 1 0 31 3.5Zm0 8a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Z" fill="#ffd21f" stroke="#d7aa00" stroke-width="1.5" stroke-linejoin="round"/></svg></span><span class="password-field"><input name="password" id="password" type="password" autocomplete="current-password" placeholder="Password" required><button id="toggle-password" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></span></label>
-        <button class="primary-button auth-submit" type="submit"><span>Login</span><span class="button-arrow" aria-hidden="true">❯❯❯</span></button>
+        <label class="field auth-input"><span class="sr-only">Email</span><span class="auth-input-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="1" y="1" width="46" height="46" rx="11" fill="#777"/><circle cx="22" cy="17" r="7" fill="#eee"/><path d="M9 36c1.8-7 6.1-10 13-10s11.2 3 13 10v3H9z" fill="#eee"/><circle cx="36" cy="35" r="8" fill="#444"/><path d="m32.7 35 2.2 2.2 4.3-4.7" fill="none" stroke="#eee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><input name="email" type="email" autocomplete="username" placeholder="Email" required></label>
+        <label class="field auth-input"><span class="sr-only">Password</span><span class="auth-input-icon auth-key-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M31 3.5a13.5 13.5 0 0 0-11.8 20.1L3 39.8V45h9v-6h6v-6h6.2l4.6-4.6A13.5 13.5 0 1 0 31 3.5Zm0 8a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Z" fill="#d2d2d2" stroke="#888" stroke-width="1.5" stroke-linejoin="round"/></svg></span><span class="password-field"><input name="password" id="password" type="password" autocomplete="current-password" placeholder="Password" required><button id="toggle-password" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></span></label>
+        <button class="primary-button auth-submit" type="submit"><span>Login</span></button>
         <p id="auth-message" class="auth-message" role="status" aria-live="polite"></p>
       </form>
     </div>
